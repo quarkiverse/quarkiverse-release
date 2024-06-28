@@ -19,7 +19,7 @@ jobs:
         with:
           repository: ${{ github.event.client_payload.github_repository }}
           run-id: ${{ github.event.client_payload.run_id }}
-          gh-token: ${{ secrets.GH_PAT }}
+          github-token: ${{ secrets.GH_PAT }}
       - name: Verify Artifact Attestation
         run: |
           ls
