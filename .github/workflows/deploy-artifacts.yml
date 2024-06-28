@@ -15,7 +15,6 @@ jobs:
       - name: Set environment variables
         run: |
           echo "ARTIFACT_PATH=${{ github.event.client_payload.name }}-${{github.event.client_payload.version}}.tar.gz" >> $GITHUB_ENV
-
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Download artifact
@@ -33,5 +32,15 @@ jobs:
         run: |
           mkdir repository
           tar -xzvf $ARTIFACT_PATH -C repository
-          ls 
-          tree repository
+      - name: Verify structure
+        uses: jbangdev/jbang-action@v0.115.0
+        with:
+          script: validate_repository.java
+        env:
+          ARTIFACT_DIR: ./repository
+          REPOSITORY: ${{ github.event.client_payload.github_repository }}
+          NAME: ${{ github.event.client_payload.name }}
+          VERSION: ${{ github.event.client_payload.version }}
+
+      - name: Deploy to Central
+        run: echo Invoke the deployment script here
