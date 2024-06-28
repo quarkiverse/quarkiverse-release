@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set environment variables
+        run: |
+          echo "ARTIFACT_PATH=${{ github.event.client_payload.name }}-${{github.event.client_payload.version}}.tar.gz" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Download artifact
@@ -22,9 +26,7 @@ jobs:
           run-id: ${{ github.event.client_payload.run_id }}
           github-token: ${{ secrets.GH_PAT }}
       - name: Verify Artifact Attestation
-        run: |
-          ls
-          gh attestation verify --repo ${{ github.event.client_payload.github_repository }} artifact
+        run: gh attestation verify --repo ${{ github.event.client_payload.github_repository }} $ARTIFACT_PATH
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
