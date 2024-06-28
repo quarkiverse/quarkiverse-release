@@ -1,0 +1,26 @@
+name: Deploy Artifacts to Central
+
+on:
+  repository_dispatch:
+    types: [ deploy_central ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+          repository: ${{ github.event.client_payload.github_repository }}
+          run-id: ${{ github.event.client_payload.run_id }}
+      - name: Verify Artifact Attestation
+        run: |
+          ls
+          
