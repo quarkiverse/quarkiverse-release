@@ -29,4 +29,8 @@ jobs:
         run: gh attestation verify --repo ${{ github.event.client_payload.github_repository }} $ARTIFACT_PATH
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-
+      - name: Untar the artifacts
+        run: |
+          tar -xzvf $ARTIFACT_PATH ./repository
+          ls 
+          tree repository
