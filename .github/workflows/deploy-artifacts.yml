@@ -31,6 +31,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
       - name: Untar the artifacts
         run: |
-          tar -xzvf $ARTIFACT_PATH ./repository
+          tar -xzvf $ARTIFACT_PATH -C repository
           ls 
           tree repository
