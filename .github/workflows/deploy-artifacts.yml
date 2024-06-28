@@ -17,10 +17,10 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
+          name: artifact
           repository: ${{ github.event.client_payload.github_repository }}
           run-id: ${{ github.event.client_payload.run_id }}
           github-token: ${{ secrets.GH_PAT }}
       - name: Verify Artifact Attestation
-        run: |
-          ls
+        run: gh attestation verify --repo ${{ github.event.client_payload.github_repository }} artifact
           
