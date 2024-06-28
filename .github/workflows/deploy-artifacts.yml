@@ -22,7 +22,9 @@ jobs:
           run-id: ${{ github.event.client_payload.run_id }}
           github-token: ${{ secrets.GH_PAT }}
       - name: Verify Artifact Attestation
-        run: gh attestation verify --repo ${{ github.event.client_payload.github_repository }} artifact
+        run: |
+          ls
+          gh attestation verify --repo ${{ github.event.client_payload.github_repository }} artifact
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
