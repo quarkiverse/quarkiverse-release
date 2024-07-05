@@ -1,5 +1,5 @@
 name: Deploy Artifacts to Central
-
+run-name: Deploy ${{ github.event.client_payload.name }} ${{ github.event.client_payload.version }} to Central
 on:
   repository_dispatch:
     types: [ deploy_central ]
@@ -8,9 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  deploy_to_central:
     runs-on: ubuntu-latest
-
     steps:
       - name: Set environment variables
         run: |
