@@ -28,9 +28,11 @@ env:
 jobs:
   deploy_to_central:
     runs-on: ubuntu-latest
-    env:
-      ARTIFACT_PATH: ${{ env.PAYLOAD_NAME }}-${{ env.PAYLOAD_VERSION }}.tar.gz
     steps:
+      - name: Set environment variables
+        run: |
+          echo "ARTIFACT_PATH=${PAYLOAD_NAME}-${PAYLOAD_VERSION}.tar.gz" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v4
 
