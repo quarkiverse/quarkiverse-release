@@ -24,11 +24,12 @@ env:
   PAYLOAD_VERSION: ${{ github.event.inputs.version }}
   PAYLOAD_REPOSITORY: ${{ github.event.inputs.github_repository }}
   PAYLOAD_RUN_ID: ${{ github.event.inputs.run_id }}
-  ARTIFACT_PATH: ${{ env.PAYLOAD_NAME }}-${{ env.PAYLOAD_VERSION }}.tar.gz
 
 jobs:
   deploy_to_central:
     runs-on: ubuntu-latest
+    env:
+      ARTIFACT_PATH: ${{ env.PAYLOAD_NAME }}-${{ env.PAYLOAD_VERSION }}.tar.gz
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
