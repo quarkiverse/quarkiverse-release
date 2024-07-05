@@ -1,32 +1,51 @@
 name: Deploy Artifacts to Central
-run-name: Deploy ${{ github.event.client_payload.name }} ${{ github.event.client_payload.version }} to Central
+run-name: Deploy ${{ github.event.inputs.name }} ${{ github.event.inputs.version }} to Central
 on:
-  repository_dispatch:
-    types: [ deploy_central ]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name of the artifact'
+        required: true
+      version:
+        description: 'Version of the artifact'
+        required: true
+      github_repository:
+        description: 'GitHub repository of the artifact'
+        required: true
+      run_id:
+        description: 'Run ID of the release workflow'
+        required: true
 
 permissions:
   contents: read
+
+env:
+  PAYLOAD_NAME: ${{ github.event.inputs.name }}
+  PAYLOAD_VERSION: ${{ github.event.inputs.version }}
+  PAYLOAD_REPOSITORY: ${{ github.event.inputs.github_repository }}
+  PAYLOAD_RUN_ID: ${{ github.event.inputs.run_id }}
+  ARTIFACT_PATH: ${{ env.PAYLOAD_NAME }}-${{ env.PAYLOAD_VERSION }}.tar.gz
 
 jobs:
   deploy_to_central:
     runs-on: ubuntu-latest
     steps:
-      - name: Set environment variables
-        run: |
-          echo "ARTIFACT_PATH=${{ github.event.client_payload.name }}-${{github.event.client_payload.version}}.tar.gz" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: artifact
-          repository: ${{ github.event.client_payload.github_repository }}
-          run-id: ${{ github.event.client_payload.run_id }}
+          repository: ${{ env.PAYLOAD_REPOSITORY }}
+          run-id: ${{ env.PAYLOAD_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Verify Artifact Attestation
-        run: gh attestation verify --repo ${{ github.event.client_payload.github_repository }} $ARTIFACT_PATH
+        run: gh attestation verify --repo ${{ env.PAYLOAD_REPOSITORY }} $ARTIFACT_PATH
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Untar the artifacts
         run: |
           mkdir repository
@@ -37,9 +56,9 @@ jobs:
           script: validate_repository.java
         env:
           ARTIFACT_DIR: ./repository
-          REPOSITORY: ${{ github.event.client_payload.github_repository }}
-          NAME: ${{ github.event.client_payload.name }}
-          VERSION: ${{ github.event.client_payload.version }}
+          REPOSITORY: ${{ env.PAYLOAD_REPOSITORY }}
+          NAME: ${{ env.PAYLOAD_NAME }}
+          VERSION: ${{ env.PAYLOAD_VERSION }}
 
       - name: Deploy to Central
         run: echo Invoke the deployment script here
