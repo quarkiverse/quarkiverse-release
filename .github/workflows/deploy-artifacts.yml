@@ -23,11 +23,11 @@ jobs:
           name: artifact
           repository: ${{ github.event.client_payload.github_repository }}
           run-id: ${{ github.event.client_payload.run_id }}
-          github-token: ${{ secrets.GH_PAT }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Verify Artifact Attestation
         run: gh attestation verify --repo ${{ github.event.client_payload.github_repository }} $ARTIFACT_PATH
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Untar the artifacts
         run: |
           mkdir repository
