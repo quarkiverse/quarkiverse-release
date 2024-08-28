@@ -82,8 +82,16 @@ jobs:
           VERSION: ${{ env.PAYLOAD_VERSION }}
 
       - name: Deploy to Central
-        run: |
-          mvn org.sonatype.plugins:nexus-staging-maven-plugin:1.7.0:deploy-staged-repository -DserverId=ossrh \
-            -DrepositoryDirectory=./repository \
-            -DstagingProfileId=io.quarkiverse \
-            -DnexusUrl=https://s01.oss.sonatype.org/ 
+        uses: jreleaser/release-action@v2
+        env:
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          JRELEASER_NEXUS2_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          JRELEASER_NEXUS2_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+
+#      - name: Deploy to Central
+#        run: |
+#          mvn org.sonatype.plugins:nexus-staging-maven-plugin:1.7.0:deploy-staged-repository -DserverId=ossrh \
+#            -DrepositoryDirectory=./repository \
+#            -DstagingProfileId=io.quarkiverse \
+#            -DnexusUrl=https://s01.oss.sonatype.org/

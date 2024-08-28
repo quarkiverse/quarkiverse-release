@@ -1,17 +1,16 @@
 signing:
   active: ALWAYS
   armored: true
+  verify: false
 
 deploy:
   maven:
     nexus2:
       maven-central:
-        # List of directories where staged artifacts can be found.
-        stagingRepositories:
-          - repository
-        # URL where the Nexus2 snapshots are enabled.
+        active: ALWAYS
+        url: https://s01.oss.sonatype.org/service/local
         snapshotUrl: https://s01.oss.sonatype.org/content/repositories/snapshots/
-        # Closes the staging repository.
         closeRepository: true
-        # Releases the staging repository.
         releaseRepository: true
+        stagingRepositories:
+          - ./repository
