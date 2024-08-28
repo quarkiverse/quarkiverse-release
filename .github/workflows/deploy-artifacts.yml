@@ -27,7 +27,7 @@ env:
 
 concurrency:
   # Only one release at a time per repository
-  group: ${PAYLOAD_REPOSITORY}
+  group: ${{ env.PAYLOAD_REPOSITORY }}
   cancel-in-progress: true
 
 jobs:
@@ -58,6 +58,7 @@ jobs:
         run: |
           mkdir repository
           tar -xzvf $ARTIFACT_PATH -C repository
+
       - name: Verify structure
         uses: jbangdev/jbang-action@v0.115.0
         with:
