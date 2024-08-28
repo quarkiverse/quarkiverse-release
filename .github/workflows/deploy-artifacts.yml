@@ -38,11 +38,11 @@ jobs:
         run: |
           echo "ARTIFACT_PATH=${PAYLOAD_NAME}-${PAYLOAD_VERSION}.tar.gz" >> $GITHUB_ENV
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -82,10 +82,15 @@ jobs:
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           JRELEASER_NEXUS2_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_NEXUS2_TOKEN: ${{ secrets.OSSRH_TOKEN }}
-
-#      - name: Deploy to Central
-#        run: |
-#          mvn org.sonatype.plugins:nexus-staging-maven-plugin:1.7.0:deploy-staged-repository -DserverId=ossrh \
-#            -DrepositoryDirectory=./repository \
-#            -DstagingProfileId=io.quarkiverse \
-#            -DnexusUrl=https://s01.oss.sonatype.org/
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_PROJECT_VERSION: ${{ env.PAYLOAD_VERSION }}
+          JRELEASER_PROJECT_NAME: ${{ env.PAYLOAD_NAME }}
+      # Persist logs
+      - name: JReleaser release output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
