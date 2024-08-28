@@ -27,7 +27,7 @@ env:
 
 concurrency:
   # Only one release at a time per repository
-  group: ${{ env.PAYLOAD_REPOSITORY }}
+  group: ${PAYLOAD_REPOSITORY}
   cancel-in-progress: true
 
 jobs:
