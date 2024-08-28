@@ -25,6 +25,11 @@ env:
   PAYLOAD_REPOSITORY: ${{ github.event.inputs.github_repository }}
   PAYLOAD_RUN_ID: ${{ github.event.inputs.run_id }}
 
+concurrency:
+  # Only one release at a time per repository
+  group: ${PAYLOAD_REPOSITORY}
+  cancel-in-progress: true
+
 jobs:
   deploy_to_central:
     runs-on: ubuntu-latest
