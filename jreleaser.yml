@@ -1,3 +1,7 @@
+project:
+  java:
+    groupId: io.quarkiverse
+
 signing:
   active: ALWAYS
   armored: true

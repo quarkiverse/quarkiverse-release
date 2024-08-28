@@ -81,7 +81,6 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_PROJECT_VERSION: ${{ env.PAYLOAD_VERSION }}
           JRELEASER_PROJECT_NAME: ${{ env.PAYLOAD_NAME }}
-          JRELEASER_PROJECT_JAVA_GROUP_ID: io.quarkiverse.slack
       # Persist logs
       - name: JReleaser release output
         if: always()
