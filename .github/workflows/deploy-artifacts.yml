@@ -43,10 +43,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: 'maven'
-          server-id: ossrh
-          server-username: JRELEASER_NEXUS2_USERNAME
-          server-password: JRELEASER_NEXUS2_TOKEN
 
       - name: Checkout code
         uses: actions/checkout@v4
