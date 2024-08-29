@@ -73,6 +73,8 @@ jobs:
 
       - name: Deploy to Central
         uses: jreleaser/release-action@v2
+        with:
+          arguments: 'deploy --dry-run'
         env:
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
@@ -86,7 +88,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: jreleaser-release
+          name: jreleaser-logs
           path: |
             out/jreleaser/trace.log
             out/jreleaser/output.properties
