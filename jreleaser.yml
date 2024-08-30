@@ -13,6 +13,7 @@ signing:
 deploy:
   maven:
     pomchecker:
+      version: 1.12.0
       failOnWarning: false
     nexus2:
       maven-central:
