@@ -4,7 +4,6 @@ project:
   copyright: Copyright(C) 2024 - Red Hat
   java:
     groupId: io.quarkiverse
-    multiProject: true
 
 signing:
   active: ALWAYS
