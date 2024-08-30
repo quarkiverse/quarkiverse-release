@@ -4,7 +4,6 @@ project:
   copyright: Copyright(C) 2024 - Red Hat
   java:
     groupId: io.quarkiverse
-    multiProject: true
 
 signing:
   active: ALWAYS
@@ -14,7 +13,7 @@ signing:
 deploy:
   maven:
     pomchecker:
-      version: 1.12.0
+      version: 999
       failOnWarning: false
     nexus2:
       maven-central:
