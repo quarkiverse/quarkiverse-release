@@ -20,5 +20,6 @@ deploy:
         snapshotUrl: https://s01.oss.sonatype.org/content/repositories/snapshots/
         closeRepository: true
         releaseRepository: true
+        stagingProfileId: 166ff053e5f61f
         stagingRepositories:
           - ./repository
