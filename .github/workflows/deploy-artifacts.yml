@@ -74,6 +74,7 @@ jobs:
       - name: Deploy to Central
         uses: jreleaser/release-action@v2
         with:
+          version: early-access
           arguments: 'deploy --dry-run'
         env:
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
