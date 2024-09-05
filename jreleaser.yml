@@ -1,6 +1,5 @@
 project:
   description: Quarkiverse Deployment
-  inceptionYear: 2024
   copyright: Copyright(C) 2024 - Red Hat
   java:
     groupId: io.quarkiverse
@@ -8,7 +7,7 @@ project:
 signing:
   active: ALWAYS
   armored: true
-  verify: false
+  verify: true
 
 deploy:
   maven:
