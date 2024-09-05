@@ -1,0 +1,87 @@
+name: Quarkiverse Perform Release
+
+on:
+  # Called in the release workflow
+  workflow_call:
+    secrets:
+        PUBLISH_TOKEN:
+            required: true
+    inputs:
+      version:
+        required: true
+        description: Tag version to perform release
+        type: string
+
+  # Can be triggered manually also
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: Tag version to perform release
+        required: true
+
+permissions:
+  attestations: write
+  id-token: write
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  perform-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Release Version Environment Variable
+        run: |
+          echo "RELEASE_VERSION=${DISPATCH_VERSION:-${CALL_VERSION}}" >> $GITHUB_ENV
+        env:
+          CALL_VERSION: ${{ inputs.version }}
+          DISPATCH_VERSION: ${{ github.event.inputs.version}}
+      - name: Set ARTIFACT_PATH Environment Variable
+        run: |
+          echo "ARTIFACT_PATH=${REPOSITORY_NAME}-${RELEASE_VERSION}.tar.gz" >> $GITHUB_ENV
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{env.RELEASE_VERSION}} # The tag created by the release:prepare goal
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: 'maven'
+
+      - name: Deploy release ${{env.RELEASE_VERSION}}
+        run: mvn deploy -DperformRelease -DaltDeploymentRepository=local::file://${{ github.workspace }}/repository
+
+      - name: Tarball the artifacts
+        run: tar -czvf ${ARTIFACT_PATH} -C repository .
+
+      - name: Generate artifact attestation
+        id: attest_build_provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ${{env.ARTIFACT_PATH}}
+
+      - name: Upload assets
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{env.ARTIFACT_PATH}}
+          retention-days: 3
+
+      - name: Invoke Quarkiverse Release workflow
+        run: |
+          gh workflow run deploy-artifacts.yml -R quarkiverse-release/quarkiverse-release \
+            -f github_repository=${GH_REPO} \
+            -f run_id=${GH_RUN_ID} \
+            -f version=${RELEASE_VERSION} \
+            -f name=${ARTIFACT_NAME}
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          GH_RUN_ID: ${{ github.run_id }}
+          ARTIFACT_NAME: ${{ github.event.repository.name }}
