@@ -52,7 +52,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify Artifact Attestation
-        run: gh attestation verify --repo ${PAYLOAD_REPOSITORY} ${ARTIFACT_PATH} --signer-workflow https://github.com/quarkiverse-release/.github/.github/workflows/perform-release.yml@refs/heads/main
+        run: gh attestation verify --repo ${PAYLOAD_REPOSITORY} ${ARTIFACT_PATH} --signer-repo quarkiverse-release/.github
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
