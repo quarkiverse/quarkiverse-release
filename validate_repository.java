@@ -12,7 +12,7 @@ public class validate_repository {
         Properties prop = groupIdMapping();
         // Check if the artifacts are from the authorized group Id
         if (!prop.containsKey(repository)) {
-            throw new Exception("Unauthorized group Id");
+            throw new Exception("Group Id not found in the mapping files for the repository: " + repository);
         }
         //TODO: Perform other checks here
     }
@@ -20,6 +20,9 @@ public class validate_repository {
     private static Properties groupIdMapping() throws Exception {
         Properties prop = new Properties();
         try (FileInputStream fis = new FileInputStream("mapping.properties")) {
+            prop.load(fis);
+        }
+        try (FileInputStream fis = new FileInputStream("quarkiverse-mapping.properties")) {
             prop.load(fis);
         }
         return prop;
