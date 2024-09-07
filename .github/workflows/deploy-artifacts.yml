@@ -26,8 +26,8 @@ env:
   PAYLOAD_RUN_ID: ${{ github.event.inputs.run_id }}
 
 concurrency:
-  # Only one release at a time per repository
-  group: ${PAYLOAD_REPOSITORY}
+  # Group by repository and version
+  group: ${PAYLOAD_REPOSITORY}-${PAYLOAD_VERSION}
   cancel-in-progress: true
 
 jobs:
