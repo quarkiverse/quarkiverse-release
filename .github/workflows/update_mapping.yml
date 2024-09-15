@@ -1,0 +1,34 @@
+name: Update Mapping
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: write
+
+jobs:
+  update_mapping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure Git author
+        run: |
+          git config --local user.name "GitHub Action"
+          git config --local user.email "action@github.com"
+
+      - name: Update mapping
+        run: |
+          ./generate-mapping.sh
+          git add quarkiverse-mapping.properties
+          git commit -m "Update quarkiverse-mapping"
+          git push   
