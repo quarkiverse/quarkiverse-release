@@ -18,6 +18,9 @@ jobs:
   update_mapping:
     runs-on: ubuntu-latest
     steps:
+      - name: Install XMLLint
+        run: |
+          sudo apt-get install libxml2-utils
       - name: Checkout code
         uses: actions/checkout@v4
 
