@@ -30,6 +30,7 @@ env:
   PAYLOAD_REPOSITORY: ${{ github.event.inputs.github_repository }}
   PAYLOAD_RUN_ID: ${{ github.event.inputs.run_id }}
   DRY_RUN: ${{ github.event.inputs.dry_run || vars.DRY_RUN }}
+
 concurrency:
   # Group by repository and version
   group: ${PAYLOAD_REPOSITORY}-${PAYLOAD_VERSION}
@@ -37,6 +38,7 @@ concurrency:
 
 jobs:
   deploy_to_central:
+    environment: central
     runs-on: ubuntu-latest
     steps:
       - name: Set environment variables
