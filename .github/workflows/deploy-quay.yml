@@ -52,7 +52,7 @@ jobs:
       - name: Load Docker image to local registry
         run: |
           docker load -i ${ARTIFACT_PATH}
-          docker tag ${PAYLOAD_NAME}:${PAYLOAD_VERSION} quay.io/quarkiverse/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
+          docker tag ${PAYLOAD_NAME}:${PAYLOAD_VERSION} quay.io/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
 
       - name: Log in to Quay Container Registry
         uses: docker/login-action@v3
