@@ -62,4 +62,4 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Deploy Artifact to Quay
-        run: docker push quay.io/quarkiverse/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
+        run: docker push quay.io/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
