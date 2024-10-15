@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Set environment variables
         run: |
-          echo "ARTIFACT_PATH=${PAYLOAD_NAME}.tar.gz" >> $GITHUB_ENV
+          echo "ARTIFACT_PATH=artifact.tar.gz" >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v4
