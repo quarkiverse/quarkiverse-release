@@ -1,18 +1,22 @@
 name: Deploy to Quay.io
 run-name: Deploy ${{ github.event.inputs.name }} ${{ github.event.inputs.version }} to Quay.io
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       image_name:
+        type: string
         description: 'Image Name'
         required: true
       image_tag:
+        type: string
         description: 'Image Tag'
         required: true
       github_repository:
+        type: string
         description: 'GitHub repository of the artifact'
         required: true
       run_id:
+        type: number
         description: 'Run ID of the release workflow'
         required: true
 
