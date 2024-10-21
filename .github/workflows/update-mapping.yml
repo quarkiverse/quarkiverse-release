@@ -32,8 +32,9 @@ jobs:
       - name: Update mapping
         run: |
           ./generate_mapping.sh
-          git add quarkiverse-mapping.properties
-          git commit -m "Update quarkiverse-mapping"
-          git push
+          if [[ `git status --porcelain` ]]; then
+            git commit -a -m "Update quarkiverse-mapping"
+            git push
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
