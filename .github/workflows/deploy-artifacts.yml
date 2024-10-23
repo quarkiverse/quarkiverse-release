@@ -33,7 +33,7 @@ env:
 
 concurrency:
   # Group by repository and version
-  group: ${PAYLOAD_REPOSITORY}-${PAYLOAD_VERSION}
+  group: ${{ github.event.inputs.github_repository }}-${{ github.event.inputs.version }}
   cancel-in-progress: true
 
 jobs:
