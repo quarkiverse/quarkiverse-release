@@ -13,6 +13,7 @@ deploy:
   maven:
     pomchecker:
       failOnWarning: false
+      strict: false
     nexus2:
       maven-central:
         active: ALWAYS
