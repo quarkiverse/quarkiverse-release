@@ -57,4 +57,4 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Deploy Artifact to Quay
-        run: skopeo copy --insecure-policy --multi-arch=all oci-archive:${ARTIFACT_PATH} docker://quay.io/quarkiverse/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
+        run: skopeo copy --insecure-policy --multi-arch=all oci-archive:${ARTIFACT_PATH} docker://quay.io/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
