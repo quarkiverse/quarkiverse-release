@@ -1,8 +1,9 @@
 project:
   description: Quarkiverse Deployment
   copyright: Copyright(C) 2024 - Red Hat
-  java:
-    groupId: io.quarkiverse
+  languages:
+    java:
+      groupId: io.quarkiverse
 
 signing:
   active: ALWAYS
