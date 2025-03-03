@@ -70,7 +70,7 @@ jobs:
           tar -xzvf $ARTIFACT_PATH -C repository
 
       - name: Verify structure
-        uses: jbangdev/jbang-action@v0.119.0
+        uses: jbangdev/jbang-action@v0.124.0
         with:
           script: validate_repository.java
         env:
