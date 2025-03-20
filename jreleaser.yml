@@ -18,12 +18,12 @@ deploy:
     nexus2:
       maven-central:
         active: ALWAYS
-        url: https://s01.oss.sonatype.org/service/local
-        snapshotUrl: https://s01.oss.sonatype.org/content/repositories/snapshots/
+        url: https://oss.sonatype.org/service/local
+        snapshotUrl: https://oss.sonatype.org/content/repositories/snapshots/
         closeRepository: true
         releaseRepository: true
         transitionDelay: 20
         transitionMaxRetries: 100        
-        stagingProfileId: 166ff053e5f61f
+        stagingProfileId: 1dce68d1ad2eb
         stagingRepositories:
           - ./repository
