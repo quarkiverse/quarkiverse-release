@@ -1,4 +1,5 @@
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Properties;
 
 public class validate_repository {
@@ -21,9 +22,18 @@ public class validate_repository {
         Properties prop = new Properties();
         try (FileInputStream fis = new FileInputStream("mapping.properties")) {
             prop.load(fis);
+        } catch (FileNotFoundException ffe) {
+            // Ignore
         }
         try (FileInputStream fis = new FileInputStream("quarkiverse-mapping.properties")) {
             prop.load(fis);
+        } catch (FileNotFoundException ffe) {
+            // Ignore
+        }
+        try (FileInputStream fis = new FileInputStream("quarkiverse-app-mapping.properties")) {
+            prop.load(fis);
+        } catch (FileNotFoundException ffe) {
+            // Ignore
         }
         return prop;
     }
