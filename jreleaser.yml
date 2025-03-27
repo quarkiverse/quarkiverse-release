@@ -15,15 +15,12 @@ deploy:
     pomchecker:
       failOnWarning: false
       strict: false
-    nexus2:
-      maven-central:
+    mavenCentral:
+      sonatype:
         active: ALWAYS
-        url: https://s01.oss.sonatype.org/service/local
-        snapshotUrl: https://s01.oss.sonatype.org/content/repositories/snapshots/
-        closeRepository: true
-        releaseRepository: true
-        transitionDelay: 20
-        transitionMaxRetries: 100        
-        stagingProfileId: 166ff053e5f61f
+        url: https://central.sonatype.com/api/v1/publisher
+        retryDelay: 20
+        maxRetries: 100
+        snapshotSupported: true
         stagingRepositories:
           - ./repository
