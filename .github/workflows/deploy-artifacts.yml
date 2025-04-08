@@ -82,7 +82,7 @@ jobs:
       - name: Deploy to Central
         uses: jreleaser/release-action@v2
         with:
-          version: early-access
+          version: latest
           arguments: 'deploy'
         env:
           JRELEASER_DRY_RUN: ${{ env.DRY_RUN }}
