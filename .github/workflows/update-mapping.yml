@@ -20,7 +20,8 @@ jobs:
     steps:
       - name: Install XMLLint
         run: |
-          sudo apt-get install libxml2-utils
+          sudo apt update
+          sudo apt install -y libxml2-utils
       - name: Checkout code
         uses: actions/checkout@v4
 
