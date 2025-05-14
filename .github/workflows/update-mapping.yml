@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   update_mapping:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Install XMLLint
         run: |
