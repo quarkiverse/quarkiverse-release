@@ -14,6 +14,8 @@ gh repo list quarkiverse --jq '.[].nameWithOwner' --topic quarkus-extension --js
     echo -e "$repo=$groupId" >> quarkiverse-mapping.properties
   fi
 done
+# Truncate the quarkiverse-app-mapping.properties file
+truncate -s 0 quarkiverse-app-mapping.properties
 # Iterate through all Quarkiverse app repositories and generate a mapping file
 gh repo list quarkiverse --jq '.[].nameWithOwner' --topic quarkus-app --json nameWithOwner --no-archived -L 1000 |  sort | while read repo; do
   # Get the groupId from the pom.xml file
