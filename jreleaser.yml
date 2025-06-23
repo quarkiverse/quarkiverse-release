@@ -20,7 +20,7 @@ deploy:
         active: RELEASE
         url: https://central.sonatype.com/api/v1/publisher
         retryDelay: 20
-        maxRetries: 100
+        maxRetries: 500
         stagingRepositories:
           - ./repository
     nexus2:
@@ -29,6 +29,6 @@ deploy:
         url: https://central.sonatype.com/repository/maven-snapshots/
         snapshotUrl: https://central.sonatype.com/repository/maven-snapshots/
         transitionDelay: 20
-        transitionMaxRetries: 100
+        transitionMaxRetries: 500
         stagingRepositories:
           - ./repository
