@@ -22,7 +22,7 @@ jobs:
         run: |
           sudo apt install -y libxml2-utils
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Configure Git author
         run: |
