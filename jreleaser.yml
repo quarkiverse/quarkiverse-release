@@ -7,8 +7,9 @@ project:
 
 signing:
   active: ALWAYS
-  armored: true
-  verify: true
+  pgp:
+    armored: true
+    verify: true
 
 deploy:
   maven:
