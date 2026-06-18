@@ -46,7 +46,7 @@ jobs:
           echo "ARTIFACT_PATH=${PAYLOAD_NAME}-${PAYLOAD_VERSION}.tar.gz" >> $GITHUB_ENV
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
