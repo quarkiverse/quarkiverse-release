@@ -64,4 +64,4 @@ jobs:
       - name: Deploy Artifact to Quay
         run: |
           skopeo -v
-          skopeo copy --insecure-policy --multi-arch all oci-archive:${ARTIFACT_PATH} docker://quay.io/${PAYLOAD_REPOSITORY}:${PAYLOAD_VERSION}
+          skopeo copy --insecure-policy --multi-arch all oci-archive:${ARTIFACT_PATH} docker://quay.io/${PAYLOAD_NAME}:${PAYLOAD_VERSION}
