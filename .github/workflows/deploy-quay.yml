@@ -15,12 +15,17 @@ on:
       run_id:
         description: 'Run ID of the release workflow'
         required: true
+      artifact_name:
+        description: 'Name of the artifact to download'
+        required: false
+        default: 'artifact'
 
 env:
   PAYLOAD_NAME: ${{ github.event.inputs.image_name }}
   PAYLOAD_VERSION: ${{ github.event.inputs.image_tag }}
   PAYLOAD_REPOSITORY: ${{ github.event.inputs.github_repository }}
   PAYLOAD_RUN_ID: ${{ github.event.inputs.run_id }}
+  PAYLOAD_ARTIFACT: ${{ github.event.inputs.artifact_name }}
 
 concurrency:
   # Group by repository and version
@@ -34,12 +39,12 @@ jobs:
     steps:
       - name: Set environment variables
         run: |
-          echo "ARTIFACT_PATH=artifact.tar.gz" >> $GITHUB_ENV
+          echo "ARTIFACT_PATH=${PAYLOAD_ARTIFACT}.tar.gz" >> $GITHUB_ENV
 
       - name: Download artifact
         uses: actions/download-artifact@v8
         with:
-          name: artifact
+          name: ${{ env.PAYLOAD_ARTIFACT }}
           repository: ${{ env.PAYLOAD_REPOSITORY }}
           run-id: ${{ env.PAYLOAD_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
