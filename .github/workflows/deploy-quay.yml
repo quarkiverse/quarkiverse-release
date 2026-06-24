@@ -29,7 +29,7 @@ env:
 
 concurrency:
   # Group by repository and version
-  group: ${PAYLOAD_REPOSITORY}-${PAYLOAD_VERSION}-${PAYLOAD_ARTIFACT}
+  group: ${{ github.event.inputs.github_repository }}-${{ github.event.inputs.image_tag }}-${{ github.event.inputs.artifact_name }}
   cancel-in-progress: true
 
 jobs:
