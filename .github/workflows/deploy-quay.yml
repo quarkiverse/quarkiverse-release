@@ -19,6 +19,9 @@ on:
         description: 'Name of the artifact to download'
         required: false
         default: 'artifact'
+      additional_tags:
+        description: 'Comma-separated list of additional tags (e.g. latest,stable)'
+        required: false
 
 env:
   PAYLOAD_NAME: ${{ github.event.inputs.image_name }}
@@ -65,3 +68,13 @@ jobs:
         run: |
           skopeo -v
           skopeo copy --insecure-policy --multi-arch all oci-archive:${ARTIFACT_PATH} docker://quay.io/${PAYLOAD_NAME}:${PAYLOAD_VERSION}
+
+      - name: Push additional tags
+        if: ${{ github.event.inputs.additional_tags != '' }}
+        run: |
+          IFS=',' read -ra TAGS <<< "${{ github.event.inputs.additional_tags }}"
+          for TAG in "${TAGS[@]}"; do
+            TAG=$(echo "${TAG}" | xargs)
+            echo "Tagging quay.io/${PAYLOAD_NAME}:${TAG}"
+            skopeo copy --insecure-policy --multi-arch all oci-archive:${ARTIFACT_PATH} docker://quay.io/${PAYLOAD_NAME}:${TAG}
+          done
