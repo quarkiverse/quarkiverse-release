@@ -1,6 +1,6 @@
 runners:
   linux:
-    family: ["m6a.xlarge"]
+    family: ["m6a.large"]
     image: ubuntu24-full-x64
     spot: false
     volume: 80gb:gp3
