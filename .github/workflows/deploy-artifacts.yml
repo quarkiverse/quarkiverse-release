@@ -96,6 +96,8 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_PROJECT_VERSION: ${{ env.PAYLOAD_VERSION }}
           JRELEASER_PROJECT_NAME: ${{ env.PAYLOAD_NAME }}
+          JRELEASER_ZULIP_ACCOUNT: ${{ env.ZULIP_ACCOUNT }}
+          JRELEASER_ZULIP_API_KEY: ${{ env.ZULIP_API_KEY }}
       # Persist logs
       - name: JReleaser release output
         if: always()

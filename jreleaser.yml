@@ -33,3 +33,8 @@ deploy:
         transitionMaxRetries: 500
         stagingRepositories:
           - ./repository
+
+announce:
+    zulip:
+      active: ALWAYS
+      apiHost: https://quarkusio.zulipchat.com/api/v1
