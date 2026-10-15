@@ -35,6 +35,6 @@ deploy:
           - ./repository
 
 announce:
-    zulip:
-      active: RELEASE
-      apiHost: https://quarkusio.zulipchat.com/api/v1
+  zulip:
+    active: RELEASE
+    apiHost: https://quarkusio.zulipchat.com/api/v1
