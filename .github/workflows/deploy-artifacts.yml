@@ -83,7 +83,7 @@ jobs:
         uses: jreleaser/release-action@v2
         with:
           version: latest
-          arguments: 'deploy'
+          arguments: 'full-release'
         env:
           JRELEASER_DRY_RUN: ${{ env.DRY_RUN }}
           JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
