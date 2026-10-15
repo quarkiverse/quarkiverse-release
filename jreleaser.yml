@@ -1,6 +1,13 @@
 project:
   description: Quarkiverse Deployment
   copyright: Copyright(C) 2024 - Red Hat
+  # Required by JReleaser as soon as an announcer is configured
+  license: Apache-2.0
+  authors:
+    - The Quarkiverse Team
+  links:
+    homepage: https://github.com/{{Env.PAYLOAD_REPOSITORY}}
+    documentation: https://docs.quarkiverse.io/{{Env.PAYLOAD_NAME}}/dev/
   languages:
     java:
       groupId: io.quarkiverse
@@ -38,3 +45,6 @@ announce:
   zulip:
     active: RELEASE
     apiHost: https://quarkusio.zulipchat.com/api/v1
+    # The default template points at this repository's release notes and
+    # changelog, which are meaningless here: build the links from the payload.
+    message: '{{projectName}} {{projectVersion}} has been released! https://github.com/{{Env.PAYLOAD_REPOSITORY}}/releases/tag/{{projectVersion}}'

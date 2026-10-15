@@ -96,6 +96,21 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_PROJECT_VERSION: ${{ env.PAYLOAD_VERSION }}
           JRELEASER_PROJECT_NAME: ${{ env.PAYLOAD_NAME }}
+
+      # Deliberately not 'full-release': that would also tag and create a
+      # GitHub release on *this* repository. Announce is the only extra step
+      # we want once the artifacts are on Central.
+      - name: Announce Release
+        uses: jreleaser/release-action@v2
+        with:
+          version: latest
+          arguments: 'announce'
+        env:
+          JRELEASER_DRY_RUN: ${{ env.DRY_RUN }}
+          # Required even for 'announce': release.github.token is validated
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_PROJECT_VERSION: ${{ env.PAYLOAD_VERSION }}
+          JRELEASER_PROJECT_NAME: ${{ env.PAYLOAD_NAME }}
           JRELEASER_ZULIP_ACCOUNT: ${{ secrets.ZULIP_ACCOUNT }}
           JRELEASER_ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }}
       # Persist logs
