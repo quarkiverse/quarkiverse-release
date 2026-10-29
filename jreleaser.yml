@@ -45,6 +45,14 @@ announce:
   zulip:
     active: RELEASE
     apiHost: https://quarkusio.zulipchat.com/api/v1
+    # Topic. The default appends " released!", which pushes long names past
+    # Zulip's 60-character topic limit.
+    subject: '{{projectNameCapitalized}} {{projectVersion}}'
     # The default template points at this repository's release notes and
     # changelog, which are meaningless here: build the links from the payload.
-    message: '{{projectName}} {{projectVersion}} has been released! https://github.com/{{Env.PAYLOAD_REPOSITORY}}/releases/tag/{{projectVersion}}'
+    # RELEASE_NOTES is set by the "Fetch release notes" step; triple braces
+    # keep it unescaped. When empty, the trailing blank line is trimmed.
+    message: |-
+      {{projectName}} {{projectVersion}} has been released! https://github.com/{{Env.PAYLOAD_REPOSITORY}}/releases/tag/{{projectVersion}}
+
+      {{{Env.RELEASE_NOTES}}}
