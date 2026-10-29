@@ -97,6 +97,45 @@ jobs:
           JRELEASER_PROJECT_VERSION: ${{ env.PAYLOAD_VERSION }}
           JRELEASER_PROJECT_NAME: ${{ env.PAYLOAD_NAME }}
 
+      # Adds the "What's Changed" section of the extension's GitHub release to
+      # the Zulip announcement. Best effort: if anything fails, the notes stay
+      # empty and the announcement is the plain one-liner.
+      - name: Fetch release notes
+        if: ${{ !endsWith(env.PAYLOAD_VERSION, '-SNAPSHOT') }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BODY=$(gh release view "$PAYLOAD_VERSION" -R "$PAYLOAD_REPOSITORY" --json body --jq .body) || BODY=""
+          # Keep "## What's Changed" up to the next "## " heading or "**Full Changelog**" line
+          # (whole body if there is no such section), turn "#" headings outside code fences into
+          # bold (they render too big in chat), cut at line boundaries to at most 3500 code
+          # points, and break Zulip @-mentions such as @**all** with a zero-width space.
+          NOTES=$(printf '%s' "$BODY" | sed -E 's/\r//g; s/@(_?\*)/@\xE2\x80\x8B\1/g' | jq -Rrs '
+            split("\n") as $l
+            | (first(range($l | length) | select($l[.] | test("^## What.s Changed"))) // null) as $s
+            | if $s == null then $l
+              else $l[$s:] | .[:(first(range(1; length) as $i | select(.[$i] | test("^## |^\\*\\*Full Changelog\\*\\*")) | $i) // length)]
+              end
+            | reduce .[] as $x ({o: [], f: false};
+                (if $x | test("^ {0,3}(```|~~~)") then .f |= not else . end)
+                | .o += [if .f then $x else $x | sub("^ {0,3}#{1,6}[ \\t]+(?<t>.*?)(?:[ \\t]+#+)?[ \\t]*$"; "**\(.t)**") end])
+            | .o | join("\n") | sub("\\s+\\z"; "")
+            | "*… truncated, see the full release notes*" as $m
+            | if length <= 3500 then .
+              else split("\n")
+                | reduce .[] as $x ({k: [], n: -1, cut: false};
+                    if .cut or .n + 1 + ($x | length) > 3500 - 2 - ($m | length) then .cut = true
+                    else .k += [$x] | .n += 1 + ($x | length) end)
+                | (.k | join("\n") | sub("\\s+\\z"; "")) + "\n\n" + $m
+              end')
+          DELIMITER="EOF_$(openssl rand -hex 8)"
+          {
+            echo "RELEASE_NOTES<<${DELIMITER}"
+            echo "$NOTES"
+            echo "${DELIMITER}"
+          } >> "$GITHUB_ENV"
+
       # Deliberately not 'full-release': that would also tag and create a
       # GitHub release on *this* repository. Announce is the only extra step
       # we want once the artifacts are on Central.
