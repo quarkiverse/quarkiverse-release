@@ -39,7 +39,7 @@ concurrency:
 jobs:
   deploy_to_central:
     environment: central
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Set environment variables
         run: |
